@@ -1,6 +1,8 @@
 <template>
-    <div class="content">
-        <p class="is-128x128"><img :src="track.album.images[0].url" /></p>
+    <div class="content" v-if="track && track.album">
+        <p class="is-128x128">
+          <img :src="track.album.images[0].url"/>
+        </p>
         <p>
             <strong>{{ track.name }}</strong>
             <small>[{{ track.duration_ms }}]</small>
