@@ -5,7 +5,7 @@
         </p>
         <p>
             <strong>{{ track.name }}</strong>
-            <small>[{{ track.duration_ms }}]</small>
+            <small>[{{ track.duration_ms | ms-to-mm }}]</small>
         </p>
         <p>
             <audio controls="controls" :src="track.preview_url"></audio>
@@ -14,16 +14,11 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  data () {
-    return {
-      track: {}
-    }
-  },
-  created () { // Hook que corre al inicializar
-    this.$bus.$on('set-track', (track) => {
-      this.track = track
-    })
+  computed: {
+    ...mapState(['track'])
   }
 }
 </script>

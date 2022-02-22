@@ -1,28 +1,38 @@
 <template>
   <main>
-    <pm-notification v-show="showNotification">
-      <p slot="body">No se encontraron resultados...</p>
-    </pm-notification>
-
-     <pm-loader v-show="isLoading"></pm-loader>
+    <transition name="move">
+      <pm-notification v-show="showNotification">
+        <p slot="body">No se encontraron resultados...</p>
+      </pm-notification>
+    </transition>
+     <transition name="move">
+       <pm-loader v-show="isLoading"></pm-loader>
+     </transition>
      <section class="section" v-show="!isLoading">
        <nav class="navbar">
          <div class="container">
-           <input type="text" class="input is-large" placeholder="buscar canciones" v-model="searchQuery">
+           <input 
+            type="text" 
+            class="input is-large" 
+            placeholder="buscar canciones" 
+            v-model="searchQuery"
+            @keyup.enter="search"
+           >
            <a class="button is-info is-large" @click="search">Buscar</a>
            <a class="button is-danger is-large">&times;</a>
          </div>
        </nav>
        <div class="container results">
-         <div class="columns is-multiline">
-           <div class="column is-one-quarter" v-for="(t, index) in tracks" :key="index">
-             <pm-track 
+          <div class="columns is-multiline">
+          <div class="column is-one-quarter" v-for="(t, index) in tracks" :key="index">
+            <pm-track 
+              v-blur="t.preview_url"
               :class="{ 'is-active': t.id === selectedTrack }"
               :track="t" 
               @select="setSelectedTrack">
             </pm-track>
-           </div>
-         </div>
+          </div>
+        </div>
        </div>
        <div class="container" >
          <p class="small">Resultados encontrados: {{searchMessage}}</p>

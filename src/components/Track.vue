@@ -13,13 +13,15 @@
                     <p class="subtitle is-6">{{ track.artists[0].name }}</p>
                 </div>
             </div>
-            <div class="content"><small>{{ track.duration_ms }}</small>
+            <div class="content"><small>{{ track.duration_ms | ms-to-mm}}</small>
                 <nav class="level">
                     <div class="level-left">
-                        <a class="level-item">
+                        <button class="level-item button is-primary">
                             <span class="icon is-small" @click="selectTrack">▶️</span>
-                            <span class="icon is-small" @click="goToTrack(track.id)">🌎</span>   
-                        </a>
+                        </button>
+                        <button class="level-item button is-warning">
+                            <span class="icon is-small" @click="goToTrack(track.id)">🌎</span>
+                        </button>
                     </div>
                 </nav>
             </div>
@@ -28,20 +30,20 @@
 </template>
 
 <script>
-export default {
-  props: {
-    track: { type: Object, required: true }
-  },
-  methods : {
-      selectTrack () {
-          this.$emit('select', this.track.id)
-          this.$bus.$emit('set-track', this.track)
-      },
-      goToTrack (id) {
-          this.$router.push({ name: 'track', params: { id } })
-      }
-  }
-}
+    import trackMixin from '@/mixins/track'
+
+    export default {
+    mixins : [ trackMixin ],    
+    props: {
+        track: { type: Object, required: true }
+    },
+    methods : {
+        goToTrack (id) {
+            if (!this.track.preview_url) { return }
+            this.$router.push({ name: 'track', params: { id } })
+        }
+    }
+    }
 </script>
 
 
