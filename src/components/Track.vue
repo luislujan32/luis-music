@@ -19,8 +19,8 @@
                         <button class="level-item button is-primary">
                             <span class="icon is-small" @click="selectTrack">▶️</span>
                         </button>
-                        <button class="level-item button is-warning">
-                            <span class="icon is-small" @click="goToTrack(track.id)">🌎</span>
+                        <button class="level-item button is-warning" @click="goToTrack(track)">
+                            <span class="icon is-small">🌎</span>
                         </button>
                     </div>
                 </nav>
@@ -33,16 +33,16 @@
     import trackMixin from '@/mixins/track'
 
     export default {
-    mixins : [ trackMixin ],    
-    props: {
-        track: { type: Object, required: true }
-    },
-    methods : {
-        goToTrack (id) {
-            if (!this.track.preview_url) { return }
-            this.$router.push({ name: 'track', params: { id } })
+        mixins : [ trackMixin ],    
+        props: {
+            track: { type: Object, required: true }
+        },
+        methods : {
+            goToTrack (track) {
+                this.$store.commit('setTrack', track)
+                this.$router.push({ name: 'track', params: { id: track.id } })
+            }
         }
-    }
     }
 </script>
 

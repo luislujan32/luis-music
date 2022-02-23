@@ -11,10 +11,7 @@ const store = new Vuex.Store({
     },
     getters: {
         trackTitle (state) {
-            if (!state.track.name) {
-                return ''
-            }
-            return `${state.track.name} - ${state.track.artists[0].name}`
+            return  (!state.track.name) ? '' : `${state.track.name} - ${state.track.artists[0].name}`
         }
     },
     // No se maneja codido asincronico
